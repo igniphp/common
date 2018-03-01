@@ -4,6 +4,9 @@ namespace Igni\Utils;
 
 use InvalidArgumentException;
 
+/**
+ * Used to encode/decode strings into representation of large integers as alphanumeric text.
+ */
 final class Base58
 {
     public const SIGNATURE = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
@@ -13,6 +16,8 @@ final class Base58
     private const BASE256_LENGTH = '256';
 
     /**
+     * Encodes passed integer|string into base58 representation.
+     *
      * @param string|int $string
      * @return string
      */
@@ -60,7 +65,12 @@ final class Base58
         return $base58;
     }
 
-
+    /**
+     * Decodes base58 representation of big integer into string.
+     *
+     * @param string $base58
+     * @return string
+     */
     public static function decode(string $base58): string
     {
         if (empty($base58)) {

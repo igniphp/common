@@ -2,8 +2,10 @@
 
 namespace Igni\Utils;
 
-final class StringUtil
+final class StringUtils
 {
+    use StaticClassTrait;
+
     public static function contains(string $string, string $needle, bool $caseSensitive = true): bool
     {
         if ($caseSensitive) {
@@ -270,7 +272,4 @@ final class StringUtil
             ' ' => ["\xC2\xA0", "\xE2\x80\x80", "\xE2\x80\x81", "\xE2\x80\x82", "\xE2\x80\x83", "\xE2\x80\x84", "\xE2\x80\x85", "\xE2\x80\x86", "\xE2\x80\x87", "\xE2\x80\x88", "\xE2\x80\x89", "\xE2\x80\x8A", "\xE2\x80\xAF", "\xE2\x81\x9F", "\xE3\x80\x80", "\xEF\xBE\xA0"],
         ];
     }
-
-    private function __construct() {}
 }
-
