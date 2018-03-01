@@ -4,12 +4,17 @@ sudo: false
 
 php:
   - 7.1
+  - 7.2
+  - nightly
 
-before_script:
+before_install:
   - composer self-update
-  - sleep 15
 
-install: travis_retry composer update --prefer-dist
+install:
+  - composer update
+
+script:
+  - vendor/bin/phpunit
 
 cache:
   directories:
