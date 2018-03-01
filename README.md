@@ -1,4 +1,6 @@
 # Igni common files ![Build Status](https://travis-ci.org/igniphp/common.svg?branch=master)
+
+![Igni logo](./logo/full.svg)
 Licensed under MIT License.
 
 This package contains classes shared by igni repositories.
@@ -25,3 +27,4 @@ This package contains classes shared by igni repositories.
 - Token
 - Extended ini parser
 - File handler
+- Test Case
