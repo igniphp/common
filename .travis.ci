@@ -1,0 +1,16 @@
+language: php
+
+sudo: false
+
+php:
+  - 7.1
+
+before_script:
+  - composer self-update
+  - sleep 15
+
+install: travis_retry composer update --prefer-dist
+
+cache:
+  directories:
+    - $HOME/.composer/cache
