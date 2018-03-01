@@ -1,4 +1,4 @@
-#![Igni logo](../logo/full.svg)
+# ![Igni logo](../logo/full.svg)
 
 ## Igni\Util\StringUtils
 
