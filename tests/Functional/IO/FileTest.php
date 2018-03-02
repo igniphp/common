@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace IgniTestFunctional\System;
+namespace IgniTest\Functional\IO;
 
 use Igni\IO\File;
 use Igni\Utils\TestCase;
