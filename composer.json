@@ -1,6 +1,5 @@
 {
   "name": "igniphp/common",
-  "version": "1.0.0",
   "description": "",
   "keywords": [],
   "license": "MIT",
@@ -11,8 +10,9 @@
     }
   ],
   "require": {
-    "php": ">=7.1.0",
-    "ext-bcmath": "*"
+    "php": "^7.1.0",
+    "ext-bcmath": "*",
+    "igniphp/container": "^1.1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "~5.7",
