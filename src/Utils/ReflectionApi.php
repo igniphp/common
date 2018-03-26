@@ -2,7 +2,6 @@
 
 namespace Igni\Utils;
 
-use Closure;
 use ReflectionClass;
 use ReflectionFunction;
 use ReflectionMethod;
@@ -12,9 +11,12 @@ final class ReflectionApi
     private static $reflections;
 
     /**
+     * Creates instance of the given class.
+     *
      * @param string $className
      * @param array $arguments
      * @return object
+     * @throws \ReflectionException
      */
     public static function createInstance(string $className, array $arguments = null)
     {
@@ -27,6 +29,32 @@ final class ReflectionApi
         return $reflection->newInstanceArgs($arguments);
     }
 
+    /**
+     * Checks if given $class (class or object) is instance of given $interfaceOrClass.
+     *
+     * @param $class
+     * @param string $interfaceOrClass
+     * @return bool
+     */
+    public static function isSubclassOf($class, string $interfaceOrClass): bool
+    {
+        $isSubclass = is_subclass_of($class, $interfaceOrClass, true);
+
+        if (!$isSubclass) {
+            return in_array($interfaceOrClass, class_implements($class));
+        }
+
+        return $isSubclass;
+    }
+
+    /**
+     * Overrides object's property value.
+     *
+     * @param $instance
+     * @param string $name
+     * @param $value
+     * @throws \ReflectionException
+     */
     public static function writeProperty($instance, string $name, $value): void
     {
         $reflection = self::reflectClass(get_class($instance));
@@ -36,6 +64,13 @@ final class ReflectionApi
         $property->setValue($instance, $value);
     }
 
+    /**
+     * Creates and caches in memory reflection of the given class.
+     *
+     * @param string $className
+     * @return ReflectionClass
+     * @throws \ReflectionException
+     */
     public static function reflectClass(string $className): ReflectionClass
     {
         if (isset(self::$reflections[$className])) {
@@ -45,6 +80,13 @@ final class ReflectionApi
         return self::$reflections[$className] = new ReflectionClass($className);
     }
 
+    /**
+     * Creates and caches in memory reflection of the given function.
+     *
+     * @param $function
+     * @return ReflectionFunction
+     * @throws \ReflectionException
+     */
     public static function reflectFunction($function): ReflectionFunction
     {
         if (!is_string($function)) {
@@ -54,12 +96,22 @@ final class ReflectionApi
         if (isset(self::$reflections[$function])) {
             return self::$reflections[$function];
         }
+
         return self::$reflections[$function] = new ReflectionFunction($function);
     }
 
+    /**
+     * Creates and caches in memory reflection of the given method.
+     *
+     * @param string $class
+     * @param string $method
+     * @return ReflectionMethod
+     * @throws \ReflectionException
+     */
     public static function reflectMethod(string $class, string $method): ReflectionMethod
     {
         $class = self::reflectClass($class);
+
         return $class->getMethod($method);
     }
 }
