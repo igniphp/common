@@ -30,24 +30,6 @@ final class ReflectionApi
     }
 
     /**
-     * Checks if given $class (class or object) is instance of given $interfaceOrClass.
-     *
-     * @param $class
-     * @param string $interfaceOrClass
-     * @return bool
-     */
-    public static function isSubclassOf($class, string $interfaceOrClass): bool
-    {
-        $isSubclass = is_subclass_of($class, $interfaceOrClass, true);
-
-        if (!$isSubclass) {
-            return in_array($interfaceOrClass, class_implements($class));
-        }
-
-        return $isSubclass;
-    }
-
-    /**
      * Overrides object's property value.
      *
      * @param $instance
