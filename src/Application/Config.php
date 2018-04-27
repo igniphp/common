@@ -2,8 +2,6 @@
 
 namespace Igni\Application;
 
-use Igni\Container\ServiceLocator;
-use Igni\Http;
 use Igni\IO\File\Ini;
 use Igni\IO\Path;
 use Igni\Utils\ArrayUtil;
@@ -24,47 +22,6 @@ use Igni\Utils\ArrayUtil;
  */
 class Config
 {
-    private static $prototypes = [
-        'http' => [
-            'class' => Http\Application::class,
-            'type' => 'http',
-            'container' => ServiceLocator::class,
-        ],
-        'mysql' => [
-            'host' => 'localhost',
-            'port' => 3306,
-            'type' => 'mysql',
-            'username' => '',
-            'password' => '',
-            'errors' => true,
-            'persistence' => true,
-        ],
-        'sqlite' => [
-            'type' => 'sqlite',
-            'errors' => true,
-        ],
-        'mongo' => [
-            'host' => 'localhost',
-            'port' => 27017,
-            'type' => 'mongodb',
-            'username' => '',
-            'password' => '',
-            'errors' => true,
-            'readConcern' => 'majority',
-            'writeConcern' => 'majority',
-
-        ],
-        'pgsql' => [
-            'host' => 'localhost',
-            'port' => 5432,
-            'type' => 'pgsql',
-            'username' => '',
-            'password' => '',
-            'errors' => true,
-            'persistence' => true,
-        ],
-    ];
-
     /**
      * @var array
      */
@@ -144,11 +101,12 @@ class Config
      * Supports config autoload by glob search.
      *
      * @param string $path
+     * @param array $prototypes
      * @return Config
      */
-    public static function fromIni(string $path): Config
+    public static function fromIni(string $path, array $prototypes = []): Config
     {
-        $ini = new Ini($path, self::$prototypes);
+        $ini = new Ini($path, $prototypes);
 
         $config = new self($ini->parse());
 
@@ -158,7 +116,7 @@ class Config
             foreach ($config->get('config.autoload') as $glob) {
                 $autoloadPath = Path::join($iniDirname, $glob);
                 foreach (glob($autoloadPath, GLOB_BRACE) as $file) {
-                    $autoloadedIni = new Ini($file, self::$prototypes);
+                    $autoloadedIni = new Ini($file, $prototypes);
                     $config->config = array_merge_recursive($config->config, $autoloadedIni->parse());
                 }
             }

@@ -211,13 +211,12 @@ class File
 
     public static function createTemporary(): File
     {
-        /** @var File $file */
-        $file = ReflectionApi::createInstance(self::class);
-        $file->handle = tmpfile();
-        $file->metaData = stream_get_meta_data($file->handle);
-        $file->mode = $file->metaData['mode'];
-        $file->path = new Path($file->metaData['uri']);
-        $file->filename = $file->metaData['uri'];
+        $tmpFile = tmpfile();
+        $metaData = stream_get_meta_data($tmpFile);
+
+        $file = new self($metaData['uri'], $metaData['mode']);
+        $file->handle = $tmpFile;
+        $file->metaData = $metaData;
 
         return $file;
     }

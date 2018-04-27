@@ -16,8 +16,16 @@ final class ConfigTest extends TestCase
 
     public function testFromIni(): void
     {
-        $config = Config::fromIni(__DIR__ . '/../../Fixtures/http.ini');
+        $config = Config::fromIni(
+            __DIR__ . '/../../Fixtures/http.ini',
+            [
+                'http' => [
+                    'class' => 'ApplicationClass',
+                    'type' => 'http',
+                ]
+            ]
+        );
 
-        self::assertSame(Application::class, $config->get('application.class'));
+        self::assertSame('ApplicationClass', $config->get('application.class'));
     }
 }
